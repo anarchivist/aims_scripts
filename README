@@ -1,0 +1,46 @@
+Email from cfitz:
+
+These probably need some explaining....
+
+For the first set of objects that we used (the Gould files), I  
+received a directory of files that Peter had run the FTK toolkit over  
+and had also run a program (I think it was call Avantstar Transit?)  
+that generated HTML files from source files. So, I had to make few  
+scripts that worked with this data in order to get them into fedora.
+They are:
+
+html_to_csv.rb : This takes the FTK Bookmark html files that are  
+exported. These bookmark files have technical metadata, as well as  
+descriptive metadata following a scheme that Peter had set up in the  
+FTK application. This script aggrigates all the bookmark HTML files  
+and adds them to a CSV file.
+
+reorg_directory.rb : This script takes the CSV file and makes new  
+directories for each of the objects to be imported into Fedora. It  
+also copies all the source files and Transit converted HTML file for  
+each object into their respective directory.
+
+convert_objects.rb: This script takes the Transit HTML file, converts  
+it to a postscript file, convert the postscript file into a PDF, and  
+multiple per-page jp2000 and text files. This script will require  
+ImagicMagick (with jasper + jp2000 libraries installed), ps2pdf, and  
+perl (for the html2ps script).
+
+aims_ingestor.rb: This script ingest files in the directories into  
+Fedora. Metadata from the CSV file is added into Fedora's XML.  
+Originally, the data model was set so the source object gets it's own  
+fedora object, while the text/jp2000s/pdf/ect files get added as  
+datastreams in a additional "child" fedora object. This script assume  
+that it's being run in the script directory of a rails  application  
+that has specific hydra models defined (AimsDocument).
+
+That's about it. I've run these using Ruby REE  and they seem to still  
+work fine. The convert objects can take awhile (a few hours),  
+especially if you're using a machine without much processing power.
+Let me know if there are any problems or if you have any questions!
+
+best,chris.
+
+FYI - to stanford folks, there's a copy of the files Peter gave me  
+lyberadmin@salt-dev:~/Chris_08_27/ . The file structure I think is an  
+artifact of the Transit application.
